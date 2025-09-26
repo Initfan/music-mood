@@ -2,13 +2,14 @@ import { useState } from "react";
 import Mood from "./components/Mood";
 import Describe from "./components/Describe";
 import type { mood } from "./utils/types";
+import Player from "./components/Player";
 
 const App = () => {
 	const [isDescribe, setIsDescribe] = useState<boolean>(false);
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
 
 	return (
-		<div>
+		<main>
 			<h1>Find music that suit your mood</h1>
 			{isDescribe ? (
 				<Describe setMood={(mood) => setCurrentMood(mood)} />
@@ -26,7 +27,8 @@ const App = () => {
 					</p>
 				</>
 			)}
-		</div>
+			<Player />
+		</main>
 	);
 };
 
