@@ -1,10 +1,10 @@
 Sistem Planning
-1.fitur cerita kepada ai untuk membantu mengidentifikasi mood user 
+1.fitur cerita kepada ai untuk membantu mengidentifikasi mood user ✔
 2.opsi music berdasarkan negara 
 3.opsi pemilihan music sesuai mood ✔
 4.animasi loading screen dan saaat music berputar
 5.user guide
 6.grafik berdasarkan top mood terbanyak hari ini
-7.mood (focus,sedih,senang,energik,santai)
+7.mood (focus,sedih,senang,energik,santai) ✔
 8.animasi saat music diputar yang disesuaikan dengan mood
 9.grafik mood harian user

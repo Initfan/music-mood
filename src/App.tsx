@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import Mood from "./components/Mood";
 import Describe from "./components/Describe";
 import type { mood } from "./utils/types";
-// import Player from "./components/Player";
+import Player from "./components/Player";
 
 const App = () => {
 	const [isDescribe, setIsDescribe] = useState<boolean>(false);
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
+	const [tracks, setTracks] = useState<string | null>(null);
 
 	useEffect(() => {
-		if (localStorage.getItem("token")) return;
+		if (sessionStorage.getItem("token")) return;
 
 		const generateToken = async () => {
 			const res = await fetch("https://accounts.spotify.com/api/token", {
@@ -24,10 +25,37 @@ const App = () => {
 
 			const data = await res.json();
 
-			localStorage.setItem("token", data.access_token);
+			sessionStorage.setItem("token", data.access_token);
 		};
 		generateToken();
 	}, []);
+
+	useEffect(() => {
+		if (!currentMood) return;
+		const getTracks = async () => {
+			const token = sessionStorage.getItem("token");
+			console.log(token);
+			const res = await fetch(
+				`https://api.spotify.com/v1/users/${
+					import.meta.env.VITE_SPOTIFY_USER_ID
+				}/playlists`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			const data = await res.json();
+
+			data.items.filter(
+				(v: { name: string; uri: string }) =>
+					v.name == currentMood.toLowerCase() && setTracks(v.uri)
+			);
+		};
+		getTracks();
+	}, [currentMood]);
+
+	console.log(tracks);
 
 	return (
 		<main>
@@ -48,7 +76,7 @@ const App = () => {
 					</p>
 				</>
 			)}
-			{/* <Player /> */}
+			{tracks && <Player uri={tracks} />}
 		</main>
 	);
 };

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import type { SpotifyEmbedController, SpotifyIframeApi } from "../utils/types";
 
 declare global {
@@ -7,51 +7,45 @@ declare global {
 	}
 }
 
-const Player = () => {
+const Player = ({ uri }: { uri: string }) => {
 	const embedRef = useRef(null);
+	const [loading, setLoading] = useState(false);
 	const spotifyEmbedControllerRef = useRef<SpotifyEmbedController>(null);
-	const [iFrameAPI, setIFrameAPI] = useState<SpotifyIframeApi>();
-	const [uri] = useState("spotify:playlist:37i9dQZF1DZ06evO3eIivx");
 
 	useEffect(() => {
-		if (iFrameAPI) {
-			return;
-		}
-
-		window.onSpotifyIframeApiReady = (
-			SpotifyIframeApi: SpotifyIframeApi
-		) => {
-			setIFrameAPI(SpotifyIframeApi);
-		};
-	}, [iFrameAPI]);
-
-	useEffect(() => {
-		if (iFrameAPI === undefined) return;
-
-		iFrameAPI.createController(
-			embedRef.current,
-			{
-				width: "100%",
-				height: "352",
-				uri: uri,
-			},
-			(spotifyEmbedController) => {
-				spotifyEmbedControllerRef.current = spotifyEmbedController;
-			}
-		);
-
-		return () => {
-			if (spotifyEmbedControllerRef.current) {
-				spotifyEmbedControllerRef.current.removeListener(
-					"playback_update"
+		setLoading(true);
+		if (!spotifyEmbedControllerRef.current)
+			window.onSpotifyIframeApiReady = (
+				SpotifyIframeApi: SpotifyIframeApi
+			) => {
+				SpotifyIframeApi.createController(
+					embedRef.current,
+					{
+						width: "100%",
+						height: "352",
+						uri: uri,
+					},
+					(spotifyEmbedController) => {
+						spotifyEmbedController.addListener("", () => {
+							setLoading(false);
+						});
+						spotifyEmbedControllerRef.current =
+							spotifyEmbedController;
+					}
 				);
-			}
-		};
-	}, [iFrameAPI, uri]);
+			};
+		else {
+			spotifyEmbedControllerRef.current.addListener("ready", () => {
+				setLoading(false);
+			});
+			spotifyEmbedControllerRef.current.loadUri(uri);
+		}
+	}, [uri]);
 
 	return (
 		<div>
 			<div ref={embedRef} />
+			{loading && <p>Loading music...</p>}
 		</div>
 	);
 };
