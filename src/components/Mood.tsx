@@ -1,22 +1,15 @@
-import { useState } from "react";
-type mood = "focus" | "sedih" | "senang" | "energik" | "santai" | null;
+import type { mood } from "../utils/types";
 
-const Mood = () => {
+const Mood = ({ setMood }: { setMood: (mood: mood) => void }) => {
 	const moods: mood[] = ["energik", "focus", "santai", "sedih", "senang"];
-	const [currentMood, setCurrentMood] = useState<mood>(null);
 
 	return (
 		<section>
 			{moods.map((v, i) => (
-				<button key={i} onClick={() => setCurrentMood(v)}>
+				<button key={i} onClick={() => setMood(v)}>
 					{v}
 				</button>
 			))}
-			{currentMood && (
-				<p>
-					Here's some music with <b>{currentMood}</b> mood
-				</p>
-			)}
 		</section>
 	);
 };

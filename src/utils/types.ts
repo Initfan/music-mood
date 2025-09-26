@@ -1,0 +1,1 @@
+export type mood = "focus" | "sedih" | "senang" | "energik" | "santai";
