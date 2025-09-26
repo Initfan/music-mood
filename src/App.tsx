@@ -1,12 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Mood from "./components/Mood";
 import Describe from "./components/Describe";
 import type { mood } from "./utils/types";
-import Player from "./components/Player";
+// import Player from "./components/Player";
 
 const App = () => {
 	const [isDescribe, setIsDescribe] = useState<boolean>(false);
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
+
+	useEffect(() => {
+		if (localStorage.getItem("token")) return;
+
+		const generateToken = async () => {
+			const res = await fetch("https://accounts.spotify.com/api/token", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+				body: `grant_type=client_credentials&client_id=${
+					import.meta.env.VITE_SPOTIFY_CLIENT
+				}&client_secret=${import.meta.env.VITE_SPOTIFY_SECRET}`,
+			});
+
+			const data = await res.json();
+
+			localStorage.setItem("token", data.access_token);
+		};
+		generateToken();
+	}, []);
 
 	return (
 		<main>
@@ -27,7 +48,7 @@ const App = () => {
 					</p>
 				</>
 			)}
-			<Player />
+			{/* <Player /> */}
 		</main>
 	);
 };
