@@ -34,7 +34,10 @@ const App = () => {
 			{isDescribe ? (
 				<Describe setMood={(mood) => setCurrentMood(mood)} />
 			) : (
-				<Mood setMood={(mood) => setCurrentMood(mood)} />
+				<Mood
+					setMood={(mood) => setCurrentMood(mood)}
+					currentMood={currentMood!}
+				/>
 			)}
 			<button onClick={() => setIsDescribe((p) => !p)}>
 				{isDescribe ? "Pick mood" : "Desribe what i feel"}
