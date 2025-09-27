@@ -2,30 +2,32 @@ import { useEffect, useState } from "react";
 import Mood from "./components/Mood";
 import Describe from "./components/Describe";
 import type { mood } from "./utils/types";
-import supabase from "./utils/supabase";
+import { db, storage } from "./utils/appwrite";
+import { Query } from "appwrite";
 
 const App = () => {
 	const [isDescribe, setIsDescribe] = useState<boolean>(false);
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
-	// const [tracks, setTracks] = useState<string[]>([]);
+	const [tracks, setTracks] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (!currentMood) return;
-		// supabase
-		// 	.from("music")
-		// 	.select()
-		// 	.then((v) => {
-		// 		v.data?.map((v) =>
-		// 			supabase.storage
-		// 				.from("music")
-		// 				.createSignedUrl(`${v.mood}/${v.name}.mp3`, 60)
-		// 				.then(
-		// 					(v) =>
-		// 						v.data &&
-		// 						setTracks((p) => [...p, v.data.signedUrl])
-		// 				)
-		// 		);
-		// 	});
+		setTracks([]);
+		db.listRows({
+			databaseId: "68d838a70037b2eff52d",
+			tableId: "musics",
+			queries: [Query.contains("mood", currentMood)],
+		}).then((v) =>
+			v.rows.map((v) =>
+				setTracks((p) => [
+					...p,
+					storage.getFileView({
+						bucketId: "68d8349b00000b682bac",
+						fileId: v.musicId,
+					}),
+				])
+			)
+		);
 	}, [currentMood]);
 
 	return (
@@ -57,8 +59,8 @@ const App = () => {
 				<input type="checkbox" defaultChecked id="international" />
 				<label htmlFor="international">international</label>
 			</div>
-			{/* {tracks &&
-				tracks.map((v, i) => <audio src={v} key={i} controls></audio>)} */}
+			{tracks &&
+				tracks.map((v, i) => <audio src={v} key={i} controls></audio>)}
 		</main>
 	);
 };
