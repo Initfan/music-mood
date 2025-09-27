@@ -24,15 +24,20 @@ const Describe = ({ setMood }: { setMood: (mood: mood) => void }) => {
 	};
 
 	return (
-		<div>
+		<>
+			<div className="describe">
+				<h2>Ceritakan mood anda hari ini</h2>
+				<button onClick={identifyMood} disabled={loading}>
+					{loading ? "identify..." : "identify"}
+				</button>
+			</div>
 			<textarea
+				id="describe"
+				name="describe"
 				placeholder="Describe what you feel..."
 				ref={described}
 			></textarea>
-			<button onClick={identifyMood} disabled={loading}>
-				{loading ? "identify..." : "identify"}
-			</button>
-		</div>
+		</>
 	);
 };
 

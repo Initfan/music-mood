@@ -10,7 +10,7 @@ const Mood = ({
 	const moods: mood[] = ["energik", "focus", "santai", "sedih", "senang"];
 
 	return (
-		<section>
+		<div className="mood">
 			{moods.map((v, i) => (
 				<button
 					key={i}
@@ -20,7 +20,7 @@ const Mood = ({
 					{v}
 				</button>
 			))}
-		</section>
+		</div>
 	);
 };
 
