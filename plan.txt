@@ -1,6 +1,6 @@
 Sistem Planning
 1.fitur cerita kepada ai untuk membantu mengidentifikasi mood user ✔
-2.opsi music berdasarkan negara 
+2.opsi music berdasarkan negara ✔
 3.opsi pemilihan music sesuai mood ✔
 4.animasi loading screen dan saaat music berputar
 5.user guide

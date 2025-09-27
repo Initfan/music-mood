@@ -7,25 +7,25 @@ import supabase from "./utils/supabase";
 const App = () => {
 	const [isDescribe, setIsDescribe] = useState<boolean>(false);
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
-	const [tracks, setTracks] = useState<string[]>([]);
+	// const [tracks, setTracks] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (!currentMood) return;
-		supabase
-			.from("music")
-			.select()
-			.then((v) => {
-				v.data?.map((v) =>
-					supabase.storage
-						.from("music")
-						.createSignedUrl(`${v.mood}/${v.name}.mp3`, 60)
-						.then(
-							(v) =>
-								v.data &&
-								setTracks((p) => [...p, v.data.signedUrl])
-						)
-				);
-			});
+		// supabase
+		// 	.from("music")
+		// 	.select()
+		// 	.then((v) => {
+		// 		v.data?.map((v) =>
+		// 			supabase.storage
+		// 				.from("music")
+		// 				.createSignedUrl(`${v.mood}/${v.name}.mp3`, 60)
+		// 				.then(
+		// 					(v) =>
+		// 						v.data &&
+		// 						setTracks((p) => [...p, v.data.signedUrl])
+		// 				)
+		// 		);
+		// 	});
 	}, [currentMood]);
 
 	return (
@@ -50,8 +50,15 @@ const App = () => {
 					</p>
 				</>
 			)}
-			{tracks &&
-				tracks.map((v, i) => <audio src={v} key={i} controls></audio>)}
+			<div>
+				<span>Music preference</span>
+				<input type="checkbox" defaultChecked id="local" />
+				<label htmlFor="local">local</label>
+				<input type="checkbox" defaultChecked id="international" />
+				<label htmlFor="international">international</label>
+			</div>
+			{/* {tracks &&
+				tracks.map((v, i) => <audio src={v} key={i} controls></audio>)} */}
 		</main>
 	);
 };
