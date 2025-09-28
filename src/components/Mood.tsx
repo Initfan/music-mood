@@ -1,3 +1,4 @@
+import { Button } from "@heroui/button";
 import type { mood } from "../utils/types";
 
 const Mood = ({
@@ -12,13 +13,17 @@ const Mood = ({
 	return (
 		<div className="mood">
 			{moods.map((v, i) => (
-				<button
+				<Button
+					color="primary"
+					radius="sm"
+					className="mr-2"
+					variant={v == currentMood ? "solid" : "flat"}
 					key={i}
 					onClick={() => setMood(v)}
 					disabled={v == currentMood}
 				>
 					{v}
-				</button>
+				</Button>
 			))}
 		</div>
 	);

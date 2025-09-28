@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import AI from "../utils/ai";
 import type { mood } from "../utils/types";
+import { Button, Textarea } from "@heroui/react";
 
 const Describe = ({ setMood }: { setMood: (mood: mood) => void }) => {
 	const described = useRef<HTMLTextAreaElement>(null);
@@ -25,18 +26,27 @@ const Describe = ({ setMood }: { setMood: (mood: mood) => void }) => {
 
 	return (
 		<>
-			<div className="describe">
-				<h2>Ceritakan mood anda hari ini</h2>
-				<button onClick={identifyMood} disabled={loading}>
-					{loading ? "identify..." : "identify"}
-				</button>
+			<div className="flex justify-between items-center mb-3">
+				<h2 className="text-xl font-medium">
+					Ceritakan mood anda hari ini
+				</h2>
+				<Button
+					onClick={identifyMood}
+					disabled={loading}
+					size="sm"
+					color="primary"
+					isLoading={loading}
+				>
+					{loading ? "Indentifying..." : "Identify"}
+				</Button>
 			</div>
-			<textarea
+			<Textarea
 				id="describe"
 				name="describe"
 				placeholder="Describe what you feel..."
+				radius="sm"
 				ref={described}
-			></textarea>
+			></Textarea>
 		</>
 	);
 };

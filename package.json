@@ -11,9 +11,17 @@
   },
   "dependencies": {
     "@google/genai": "^1.21.0",
+    "@heroui/button": "^2.2.26",
+    "@heroui/card": "^2.2.24",
+    "@heroui/react": "^2.8.4",
+    "@heroui/system": "^2.4.22",
+    "@heroui/theme": "^2.4.22",
+    "@tailwindcss/vite": "^4.1.13",
     "appwrite": "^20.1.0",
+    "framer-motion": "^12.23.22",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
