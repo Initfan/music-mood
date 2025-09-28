@@ -57,17 +57,6 @@ const App = () => {
 				</Card>
 			</main>
 
-			{/* {currentMood && (
-				<>
-					<h5>it looks like you are {currentMood}</h5>
-					<p>
-						Here's some music with <b>{currentMood}</b> mood
-					</p>
-				</>
-			)} */}
-			{/* {tracks &&
-				tracks.map((v, i) => <audio src={v} key={i} controls></audio>)} */}
-
 			{tracks && tracks.map((v, i) => <Player key={i} src={v} />)}
 		</div>
 	);
