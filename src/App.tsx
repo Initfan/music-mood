@@ -15,6 +15,7 @@ import {
 } from "@heroui/react";
 import Player from "./components/Player";
 import Chart from "./components/Chart";
+import Upload from "./components/Upload";
 
 const App = () => {
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
@@ -45,7 +46,7 @@ const App = () => {
 	}, [currentMood, preference]);
 
 	return (
-		<div className="space-y-6 w-[90vw] lg:w-[80vw] mx-auto">
+		<div className="space-y-6 w-[90vw] lg:w-[80vw] mx-auto py-3">
 			<header>
 				<Card radius="sm">
 					<CardBody>
@@ -99,14 +100,17 @@ const App = () => {
 						<Player tracks={tracks} currentMood={currentMood} />
 					)}
 				</div>
-				<Card className="flex-1 w-full md:w-auto p-3">
-					<CardBody>
-						<h4 className="text-lg mb-3">Top mood hari ini</h4>
-						<div className="min-h-[250px] overflow-hidden">
-							<Chart />
-						</div>
-					</CardBody>
-				</Card>
+				<div className="flex-1 w-full md:w-auto">
+					<Card className="p-3">
+						<CardBody>
+							<h4 className="text-lg mb-3">Top mood hari ini</h4>
+							<div className="min-h-[250px] overflow-hidden">
+								<Chart />
+							</div>
+						</CardBody>
+					</Card>
+					<Upload />
+				</div>
 			</main>
 		</div>
 	);
