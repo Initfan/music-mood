@@ -266,10 +266,10 @@ export const ShuffleIcon = ({
 };
 
 export default function Player({
-	src,
+	tracks,
 	currentMood,
 }: {
-	src: string[];
+	tracks: string[];
 	currentMood: mood;
 }) {
 	const audioRef = useRef<HTMLAudioElement>(null);
@@ -277,8 +277,9 @@ export default function Player({
 	const [liked, setLiked] = useState(false);
 	const [isPause, setIsPaused] = useState(false);
 	const [option, setOption] = useState<
-		Pick<HTMLAudioElement, "duration" | "currentTime" | "loop"> & {
-			shuffle: boolean;
+		Pick<HTMLAudioElement, "duration" | "currentTime"> & {
+			loop?: boolean;
+			shuffle?: boolean;
 		}
 	>({
 		duration: 0,
@@ -301,22 +302,19 @@ export default function Player({
 		>
 			<CardBody>
 				<audio
-					src={src[currentTrack - 1]}
+					src={tracks[currentTrack - 1]}
 					ref={audioRef}
 					onLoadedMetadata={(e) => {
-						setOption((p) => ({
-							...p,
+						setOption({
 							duration: e.currentTarget.duration,
 							currentTime: e.currentTarget.currentTime,
-						}));
+						});
 					}}
 					onTimeUpdate={(e) => {
-						setOption((p) => ({
-							...p,
-							currentTime: e.currentTarget
-								? e.currentTarget.currentTime
-								: 0,
-						}));
+						setOption({
+							currentTime: e.currentTarget.currentTime,
+							duration: e.currentTarget.duration,
+						});
 					}}
 					loop={option.loop}
 				></audio>
@@ -339,7 +337,7 @@ export default function Player({
 									Daily Mix
 								</h3>
 								<p className="text-small text-foreground/80">
-									{currentTrack} of {src.length} Tracks
+									{currentTrack} of {tracks.length} Tracks
 								</p>
 								<h1 className="text-large font-medium mt-2">
 									Musik {currentMood}
@@ -442,10 +440,10 @@ export default function Player({
 								className="data-hover:bg-foreground/10!"
 								radius="full"
 								variant="light"
-								isDisabled={currentTrack >= src.length}
+								isDisabled={currentTrack >= tracks.length}
 								onClick={() => {
 									setCurrentTrack((p) =>
-										p < src.length ? p + 1 : p
+										p < tracks.length ? p + 1 : p
 									);
 									setIsPaused(true);
 								}}

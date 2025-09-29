@@ -11,11 +11,7 @@ import Player from "./components/Player";
 
 const App = () => {
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
-	const [tracks, setTracks] = useState<string[]>([
-		"/thing-out-loud.mp3",
-		"/sewindu.mp3",
-		"/thing-out-loud.mp3",
-	]);
+	const [tracks, setTracks] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (!currentMood) return;
@@ -61,9 +57,9 @@ const App = () => {
 				</Card>
 			</main>
 
-			<Player src={tracks} currentMood="sedih" />
-
-			{/* {tracks && tracks.map((v, i) => <Player key={i} src={v} />)} */}
+			{tracks.length > 0 && currentMood && (
+				<Player tracks={tracks} currentMood={currentMood} />
+			)}
 		</div>
 	);
 };
