@@ -10,6 +10,12 @@ const Mood = ({
 }) => {
 	const moods: mood[] = ["energik", "focus", "santai", "sedih", "senang"];
 
+	const onSelectedMood = (mood: mood) => {
+		const totalMood = Number(sessionStorage.getItem(mood) ?? "0");
+		sessionStorage.setItem(mood, Number(totalMood + 1).toString());
+		setMood(mood);
+	};
+
 	return (
 		<div className="mt-3">
 			{moods.map((v, i) => (
@@ -19,7 +25,7 @@ const Mood = ({
 					className="mr-2"
 					variant={v == currentMood ? "solid" : "flat"}
 					key={i}
-					onClick={() => setMood(v)}
+					onClick={() => onSelectedMood(v)}
 					disabled={v == currentMood}
 				>
 					{v}

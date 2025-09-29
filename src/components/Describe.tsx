@@ -22,6 +22,10 @@ const Describe = ({ setMood }: { setMood: (mood: mood) => void }) => {
 
 		setLoading((p) => !p);
 		setMood(response.text as mood);
+		const totalMood = Number(
+			sessionStorage.getItem(response.text as mood) ?? 0
+		);
+		sessionStorage.setItem(response.text as mood, totalMood.toString());
 	};
 
 	return (

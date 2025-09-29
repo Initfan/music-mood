@@ -297,7 +297,7 @@ export default function Player({
 	return (
 		<Card
 			isBlurred
-			className="border-none bg-background/60 dark:bg-default-100/50"
+			className="border-none bg-background/60 dark:bg-default-100/50 p-3"
 			shadow="sm"
 		>
 			<CardBody>
@@ -413,7 +413,7 @@ export default function Player({
 								isDisabled={currentTrack <= 1}
 								onClick={() => {
 									setCurrentTrack((p) => (p > 1 ? p - 1 : p));
-									setIsPaused(true);
+									setIsPaused(false);
 								}}
 							>
 								<PreviousIcon />
@@ -445,7 +445,7 @@ export default function Player({
 									setCurrentTrack((p) =>
 										p < tracks.length ? p + 1 : p
 									);
-									setIsPaused(true);
+									setIsPaused(false);
 								}}
 							>
 								<NextIcon />

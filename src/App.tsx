@@ -37,17 +37,24 @@ const App = () => {
 	return (
 		<div className="space-y-6 w-[90vw] lg:w-[80vw] mx-auto">
 			<Header />
-			<main className="flex gap-4 items-start">
-				<Card className="w-2/3 p-3 space-y-3">
-					<CardBody>
-						<Describe setMood={(mood) => setCurrentMood(mood)} />
-						<Mood
-							setMood={(mood) => setCurrentMood(mood)}
-							currentMood={currentMood!}
-						/>
-					</CardBody>
-				</Card>
-				<Card className="flex-1 p-3">
+			<main className="flex flex-col lg:flex-row gap-4 items-start">
+				<div className="lg:w-2/3 w-full space-y-3">
+					<Card className="p-3 space-y-3">
+						<CardBody>
+							<Describe
+								setMood={(mood) => setCurrentMood(mood)}
+							/>
+							<Mood
+								setMood={(mood) => setCurrentMood(mood)}
+								currentMood={currentMood!}
+							/>
+						</CardBody>
+					</Card>
+					{tracks.length > 0 && currentMood && (
+						<Player tracks={tracks} currentMood={currentMood} />
+					)}
+				</div>
+				<Card className="flex-1 w-full md:w-auto p-3">
 					<CardBody>
 						<h4 className="text-lg mb-3">Top mood hari ini</h4>
 						<div className="min-h-[250px] overflow-hidden">
@@ -56,10 +63,6 @@ const App = () => {
 					</CardBody>
 				</Card>
 			</main>
-
-			{tracks.length > 0 && currentMood && (
-				<Player tracks={tracks} currentMood={currentMood} />
-			)}
 		</div>
 	);
 };

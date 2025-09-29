@@ -6,10 +6,8 @@ export default function Example() {
 	const data = moods.map((v, i) => ({
 		id: i,
 		label: v,
-		value: Math.ceil(Math.random() * 1000),
+		value: Number(sessionStorage.getItem(v) ?? 0),
 	}));
-
-	console.log(data);
 
 	return (
 		<PieChart
