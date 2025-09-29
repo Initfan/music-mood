@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Card, CardBody, Image, Button, Slider } from "@heroui/react";
+import type { mood } from "../utils/types";
 
 export const HeartIcon = ({
 	size = 24,
@@ -264,15 +265,26 @@ export const ShuffleIcon = ({
 	);
 };
 
-export default function Player({ src }: { src: string }) {
-	const [liked, setLiked] = useState(false);
+export default function Player({
+	src,
+	currentMood,
+}: {
+	src: string[];
+	currentMood: mood;
+}) {
 	const audioRef = useRef<HTMLAudioElement>(null);
-	const [isPause, setIsPaused] = useState(audioRef.current?.paused);
+	const [currentTrack, setCurrentTrack] = useState(1);
+	const [liked, setLiked] = useState(false);
+	const [isPause, setIsPaused] = useState(false);
 	const [option, setOption] = useState<
-		Pick<HTMLAudioElement, "duration" | "currentTime">
+		Pick<HTMLAudioElement, "duration" | "currentTime" | "loop"> & {
+			shuffle: boolean;
+		}
 	>({
 		duration: 0,
 		currentTime: 0,
+		loop: false,
+		shuffle: false,
 	});
 
 	useEffect(() => {
@@ -289,20 +301,24 @@ export default function Player({ src }: { src: string }) {
 		>
 			<CardBody>
 				<audio
-					src={src}
+					src={src[currentTrack - 1]}
 					ref={audioRef}
 					onLoadedMetadata={(e) => {
-						setOption({
-							currentTime: e.currentTarget.currentTime,
+						setOption((p) => ({
+							...p,
 							duration: e.currentTarget.duration,
-						});
+							currentTime: e.currentTarget.currentTime,
+						}));
 					}}
 					onTimeUpdate={(e) => {
-						setOption({
-							currentTime: e.currentTarget.currentTime,
-							duration: option.duration,
-						});
+						setOption((p) => ({
+							...p,
+							currentTime: e.currentTarget
+								? e.currentTarget.currentTime
+								: 0,
+						}));
 					}}
+					loop={option.loop}
 				></audio>
 				<div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
 					<div className="relative col-span-6 md:col-span-4">
@@ -323,10 +339,10 @@ export default function Player({ src }: { src: string }) {
 									Daily Mix
 								</h3>
 								<p className="text-small text-foreground/80">
-									12 Tracks
+									{currentTrack} of {src.length} Tracks
 								</p>
 								<h1 className="text-large font-medium mt-2">
-									Frontend Radio
+									Musik {currentMood}
 								</h1>
 							</div>
 							<Button
@@ -384,7 +400,10 @@ export default function Player({ src }: { src: string }) {
 								isIconOnly
 								className="data-hover:bg-foreground/10!"
 								radius="full"
-								variant="light"
+								variant={option.loop ? "solid" : "light"}
+								onClick={() =>
+									setOption((p) => ({ ...p, loop: !p.loop }))
+								}
 							>
 								<RepeatOneIcon className="text-foreground/80" />
 							</Button>
@@ -393,6 +412,11 @@ export default function Player({ src }: { src: string }) {
 								className="data-hover:bg-foreground/10!"
 								radius="full"
 								variant="light"
+								isDisabled={currentTrack <= 1}
+								onClick={() => {
+									setCurrentTrack((p) => (p > 1 ? p - 1 : p));
+									setIsPaused(true);
+								}}
 							>
 								<PreviousIcon />
 							</Button>
@@ -418,6 +442,13 @@ export default function Player({ src }: { src: string }) {
 								className="data-hover:bg-foreground/10!"
 								radius="full"
 								variant="light"
+								isDisabled={currentTrack >= src.length}
+								onClick={() => {
+									setCurrentTrack((p) =>
+										p < src.length ? p + 1 : p
+									);
+									setIsPaused(true);
+								}}
 							>
 								<NextIcon />
 							</Button>
@@ -425,7 +456,13 @@ export default function Player({ src }: { src: string }) {
 								isIconOnly
 								className="data-hover:bg-foreground/10!"
 								radius="full"
-								variant="light"
+								variant={option.shuffle ? "solid" : "light"}
+								onClick={() =>
+									setOption((p) => ({
+										...p,
+										shuffle: !p.shuffle,
+									}))
+								}
 							>
 								<ShuffleIcon className="text-foreground/80" />
 							</Button>

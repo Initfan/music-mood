@@ -11,21 +11,25 @@ import Player from "./components/Player";
 
 const App = () => {
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
-	const [tracks, setTracks] = useState<string[]>(["/thing-out-loud.mp3"]);
+	const [tracks, setTracks] = useState<string[]>([
+		"/thing-out-loud.mp3",
+		"/sewindu.mp3",
+		"/thing-out-loud.mp3",
+	]);
 
 	useEffect(() => {
 		if (!currentMood) return;
 		setTracks([]);
 		db.listRows({
-			databaseId: "68d838a70037b2eff52d",
-			tableId: "musics",
+			databaseId: "68da581600322d1917ce",
+			tableId: "music",
 			queries: [Query.contains("mood", currentMood)],
 		}).then((v) =>
 			v.rows.map((v) =>
 				setTracks((p) => [
 					...p,
 					storage.getFileView({
-						bucketId: "68d8349b00000b682bac",
+						bucketId: "68da58a3000f561df3f2",
 						fileId: v.musicId,
 					}),
 				])
@@ -57,7 +61,9 @@ const App = () => {
 				</Card>
 			</main>
 
-			{tracks && tracks.map((v, i) => <Player key={i} src={v} />)}
+			<Player src={tracks} currentMood="sedih" />
+
+			{/* {tracks && tracks.map((v, i) => <Player key={i} src={v} />)} */}
 		</div>
 	);
 };
