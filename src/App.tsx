@@ -8,6 +8,7 @@ import { Query } from "appwrite";
 import Header from "./components/Header";
 import { Card, CardBody } from "@heroui/card";
 import Player from "./components/Player";
+import Chart from "./components/Chart";
 
 const App = () => {
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
@@ -36,22 +37,21 @@ const App = () => {
 	return (
 		<div className="space-y-6 w-[90vw] lg:w-[80vw] mx-auto">
 			<Header />
-			<main>
-				<Card>
+			<main className="flex gap-4 items-start">
+				<Card className="w-2/3 p-3 space-y-3">
 					<CardBody>
-						<div className="flex gap-4">
-							<section className="p-3 space-y-4 w-2/3">
-								<Describe
-									setMood={(mood) => setCurrentMood(mood)}
-								/>
-								<Mood
-									setMood={(mood) => setCurrentMood(mood)}
-									currentMood={currentMood!}
-								/>
-							</section>
-							<section>
-								<h4 className="text-lg ">Top mood hari ini</h4>
-							</section>
+						<Describe setMood={(mood) => setCurrentMood(mood)} />
+						<Mood
+							setMood={(mood) => setCurrentMood(mood)}
+							currentMood={currentMood!}
+						/>
+					</CardBody>
+				</Card>
+				<Card className="flex-1 p-3">
+					<CardBody>
+						<h4 className="text-lg mb-3">Top mood hari ini</h4>
+						<div className="min-h-[250px] overflow-hidden">
+							<Chart />
 						</div>
 					</CardBody>
 				</Card>

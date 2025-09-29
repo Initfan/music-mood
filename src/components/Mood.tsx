@@ -11,7 +11,7 @@ const Mood = ({
 	const moods: mood[] = ["energik", "focus", "santai", "sedih", "senang"];
 
 	return (
-		<div className="mood">
+		<div className="mt-3">
 			{moods.map((v, i) => (
 				<Button
 					color="primary"
