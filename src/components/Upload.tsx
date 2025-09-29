@@ -55,7 +55,7 @@ const Upload = () => {
 				<Input
 					type="file"
 					name="audio"
-					accept="audio/mp3"
+					accept="audio/*"
 					multiple
 					isRequired
 				/>
