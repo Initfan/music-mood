@@ -339,7 +339,7 @@ export default function Player({
 								<p className="text-small text-foreground/80">
 									{currentTrack} of {tracks.length} Tracks
 								</p>
-								<h1 className="text-large font-medium mt-2">
+								<h1 className="text-large font-medium mt-2 capitalize">
 									Musik {currentMood}
 								</h1>
 							</div>

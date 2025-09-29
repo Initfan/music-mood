@@ -8,7 +8,7 @@ const Mood = ({
 	setMood: (mood: mood) => void;
 	currentMood: mood;
 }) => {
-	const moods: mood[] = ["energik", "focus", "santai", "sedih", "senang"];
+	const moods: mood[] = ["focus", "santai", "sedih", "senang"];
 
 	const onSelectedMood = (mood: mood) => {
 		const totalMood = Number(sessionStorage.getItem(mood) ?? "0");
@@ -22,7 +22,7 @@ const Mood = ({
 				<Button
 					color="primary"
 					radius="sm"
-					className="mr-2"
+					className="mr-2 capitalize"
 					variant={v == currentMood ? "solid" : "flat"}
 					key={i}
 					onClick={() => onSelectedMood(v)}
