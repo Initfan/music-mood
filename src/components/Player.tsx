@@ -325,7 +325,15 @@ export default function Player({
 							className="object-cover"
 							height={200}
 							shadow="md"
-							src="https://heroui.com/images/album-cover.png"
+							src={
+								currentMood == "focus"
+									? "/focus-mood.gif"
+									: currentMood == "santai"
+									? "/chill-mood.gif"
+									: currentMood == "sedih"
+									? "/sad-mood.gif"
+									: "/happy-mood.gif"
+							}
 							width="100%"
 						/>
 					</div>

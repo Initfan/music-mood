@@ -1,13 +1,4 @@
-import {
-	Alert,
-	Button,
-	Form,
-	Input,
-	Radio,
-	RadioGroup,
-	Select,
-	SelectItem,
-} from "@heroui/react";
+import { Alert, Button, Form, Input, Radio, RadioGroup } from "@heroui/react";
 import { db, storage } from "../utils/appwrite";
 import { ID } from "appwrite";
 import type { mood } from "../utils/types";
@@ -59,18 +50,16 @@ const Upload = () => {
 					multiple
 					isRequired
 				/>
-				<Select
-					name="mood"
-					placeholder="Pilih mood"
-					label="mood"
-					isDisabled={loading}
-				>
+				<select name="mood" disabled={loading}>
+					<option selected value="">
+						Pilih mood
+					</option>
 					{moods.map((v) => (
-						<SelectItem key={v} textValue={v}>
+						<option key={v} value={v}>
 							{v}
-						</SelectItem>
+						</option>
 					))}
-				</Select>
+				</select>
 				<RadioGroup
 					label="Music preference"
 					name="preference"
