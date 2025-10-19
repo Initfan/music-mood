@@ -1,0 +1,140 @@
+{
+    "projectId": "68da57b9000ed03397cc",
+    "endpoint": "https://fra.cloud.appwrite.io/v1",
+    "projectName": "music-mood",
+    "settings": {
+        "services": {
+            "account": true,
+            "avatars": true,
+            "databases": true,
+            "locale": true,
+            "health": true,
+            "storage": true,
+            "teams": true,
+            "users": true,
+            "sites": true,
+            "functions": true,
+            "graphql": true,
+            "messaging": true
+        },
+        "auth": {
+            "methods": {
+                "jwt": true,
+                "phone": true,
+                "invites": true,
+                "anonymous": true,
+                "email-otp": true,
+                "magic-url": true,
+                "email-password": true
+            },
+            "security": {
+                "duration": 31536000,
+                "limit": 0,
+                "sessionsLimit": 10,
+                "passwordHistory": 0,
+                "passwordDictionary": false,
+                "personalDataCheck": false,
+                "sessionAlerts": false,
+                "mockNumbers": []
+            }
+        }
+    },
+    "tablesDB": [
+        {
+            "$id": "68da581600322d1917ce",
+            "name": "musics",
+            "enabled": true
+        }
+    ],
+    "tables": [
+        {
+            "$id": "music",
+            "$permissions": [
+                "create(\"any\")",
+                "read(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "databaseId": "68da581600322d1917ce",
+            "name": "music",
+            "enabled": true,
+            "rowSecurity": false,
+            "columns": [
+                {
+                    "key": "musicId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 25,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "mood",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 11,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "preference",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 25,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "title",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 50,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "singer",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "image",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": []
+        }
+    ],
+    "buckets": [
+        {
+            "$id": "68da58a3000f561df3f2",
+            "$permissions": [
+                "create(\"any\")",
+                "read(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "fileSecurity": false,
+            "name": "music-mood",
+            "enabled": true,
+            "maximumFileSize": 50000000,
+            "allowedFileExtensions": [],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
+        }
+    ]
+}

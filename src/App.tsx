@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { mood } from "./utils/types";
-import { db, storage } from "./utils/appwrite";
+import { db } from "./utils/appwrite";
 import "./App.css";
 import { Query } from "appwrite";
 import Player from "./components/Player";
@@ -8,29 +8,27 @@ import Describe from "./components/Describe";
 import Header from "./components/Header";
 import Mood from "./components/Mood";
 import Track from "./components/Track";
+import type { Music } from "./types/appwrite";
 
 const App = () => {
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
-	const [tracks, setTracks] = useState<string[]>([]);
+	const [tracks, setTracks] = useState<Music[]>([]);
+	const [playlist, setPlaylist] = useState<string[]>([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (!currentMood) return;
 		setTracks([]);
-		db.listRows({
+		setLoading((p) => !p);
+		db.listRows<Music>({
 			databaseId: "68da581600322d1917ce",
 			tableId: "music",
 			queries: [Query.contains("mood", currentMood)],
-		}).then((v) =>
-			v.rows.map((v) =>
-				setTracks((p) => [
-					...p,
-					storage.getFileView({
-						bucketId: "68da58a3000f561df3f2",
-						fileId: v.musicId,
-					}),
-				])
-			)
-		);
+		}).then((v) => {
+			setLoading((p) => !p);
+			if (v.total == 0) return;
+			setTracks(v.rows);
+		});
 	}, [currentMood]);
 
 	return (
@@ -46,7 +44,15 @@ const App = () => {
 				</div>
 				<Mood setMood={(mood) => setCurrentMood(mood)} />
 
-				{currentMood && (
+				{!loading && !currentMood && (
+					<img
+						src="/loading.gif"
+						alt="loading gif"
+						className="self-center"
+					/>
+				)}
+
+				{!loading && currentMood && (
 					<div className="w-full flex flex-col gap-4">
 						<h1 className="text-xl">
 							Daftar musik dengan mood{" "}
@@ -55,15 +61,27 @@ const App = () => {
 							</span>
 						</h1>
 
-						<Track
-							title="Thinking Out Loud"
-							duration="3:49"
-							likes={150}
-							singer="Ed Sheeran"
-							src="Thinking_Out_Loud_cover.png"
-						/>
+						{tracks.length > 0 ? (
+							tracks.map((v, i) => (
+								<Track
+									key={i}
+									track={v}
+									playlist={playlist}
+									setPlaylist={(v) =>
+										setPlaylist((p) => [...p, v])
+									}
+								/>
+							))
+						) : (
+							<p>Musik tidak ditemukan</p>
+						)}
 
-						<Player currentMood={currentMood} tracks={tracks} />
+						{tracks.length > 0 && playlist.length > 0 && (
+							<Player
+								currentMood={currentMood}
+								tracks={playlist}
+							/>
+						)}
 					</div>
 				)}
 			</main>

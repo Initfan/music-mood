@@ -326,7 +326,7 @@ export default function Player({
 							height={200}
 							shadow="md"
 							src={
-								currentMood == "focus"
+								currentMood == "fokus"
 									? "/focus-mood.gif"
 									: currentMood == "santai"
 									? "/chill-mood.gif"

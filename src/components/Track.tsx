@@ -1,28 +1,45 @@
 import { Disc3, Ellipsis, Heart } from "lucide-react";
+import type { Music } from "../types/appwrite";
+import { storage } from "../utils/appwrite";
+import { useEffect, useState } from "react";
 
-type track = {
-	src: string;
-	title: string;
-	singer: string;
-	duration: string;
-	likes: number;
-};
+const Track = ({
+	track,
+	playlist,
+	setPlaylist,
+}: {
+	track: Music;
+	playlist: string[];
+	setPlaylist: (v: string) => void;
+}) => {
+	const musicUrl = storage.getFileView({
+		bucketId: "68da58a3000f561df3f2",
+		fileId: track.musicId,
+	});
+	const [isPlaying, setIsPlaying] = useState(false);
 
-const Track = ({ src, title, singer, duration, likes }: track) => {
+	useEffect(() => {
+		if (playlist.find((v) => v == musicUrl)) setIsPlaying(true);
+	}, [playlist, musicUrl]);
+
 	return (
-		<div className="flex space-x-3 w-full cursor-pointer ">
-			<img className="h-24 w-24 rounded" src={src}></img>
+		<div
+			className="flex space-x-3 w-full cursor-pointer"
+			onClick={() => setPlaylist(musicUrl)}
+		>
+			<img className="h-24 w-24 rounded" src={track.image}></img>
 			<div className="flex flex-col justify-between flex-1 group">
 				<div className="flex flex-col group-hover:underline">
-					<h3 className="text-xl">{title}</h3>
-					<p className="text-sm text-gray-400">{singer}</p>
+					<h3 className="text-xl">{track.title}</h3>
+					<p className="text-sm text-gray-400">{track.singer}</p>
 				</div>
 				<div className="flex space-x-3">
 					<p className="text-sm flex items-center gap-2">
-						<Disc3 size={20} /> {duration}
+						<Disc3 size={20} className="animate-spin" />{" "}
+						{!isPlaying && "Tidak"} Diputar
 					</p>
 					<p className="text-sm flex items-center gap-2">
-						<Heart size={20} fill="red" stroke="0" /> {likes}
+						<Heart size={20} fill="red" stroke="0" /> 0
 					</p>
 				</div>
 			</div>
