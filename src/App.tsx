@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Mood from "./components/Mood";
 import Track from "./components/Track";
 import type { Music } from "./types/appwrite";
+import { LoadingTrack } from "./components/Loading";
 
 const App = () => {
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
@@ -18,8 +19,9 @@ const App = () => {
 
 	useEffect(() => {
 		if (!currentMood) return;
-		setTracks([]);
 		setLoading((p) => !p);
+		setTracks([]);
+		setPlaylist([]);
 		db.listRows<Music>({
 			databaseId: "68da581600322d1917ce",
 			tableId: "music",
@@ -51,6 +53,8 @@ const App = () => {
 						className="self-center"
 					/>
 				)}
+
+				{loading && <LoadingTrack />}
 
 				{!loading && currentMood && (
 					<div className="w-full flex flex-col gap-4">

@@ -25,7 +25,7 @@ const Track = ({
 	return (
 		<div
 			className="flex space-x-3 w-full cursor-pointer"
-			onClick={() => setPlaylist(musicUrl)}
+			onClick={() => !isPlaying && setPlaylist(musicUrl)}
 		>
 			<img className="h-24 w-24 rounded" src={track.image}></img>
 			<div className="flex flex-col justify-between flex-1 group">
@@ -35,7 +35,10 @@ const Track = ({
 				</div>
 				<div className="flex space-x-3">
 					<p className="text-sm flex items-center gap-2">
-						<Disc3 size={20} className="animate-spin" />{" "}
+						<Disc3
+							size={20}
+							className={isPlaying ? "animate-spin" : ""}
+						/>{" "}
 						{!isPlaying && "Tidak"} Diputar
 					</p>
 					<p className="text-sm flex items-center gap-2">
