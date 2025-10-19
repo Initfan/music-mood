@@ -5,3 +5,19 @@
 @plugin './utils//hero.ts';
 @source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
+
+@layer base {
+	button {
+		@apply cursor-pointer;
+	}
+}
+
+@layer components {
+	.button-mood {
+		@apply h-full w-1/4 overflow-hidden rounded relative bg-background/50 bg-blend-multiply flex justify-center px-4 flex-col items-start;
+	}
+
+	.mood-container {
+		@apply h-[150px] flex space-x-3 overflow-x-auto scrollbar-hide w-full cursor-pointer;
+	}
+}

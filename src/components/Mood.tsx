@@ -1,14 +1,7 @@
-import { Button } from "@heroui/button";
 import type { mood } from "../utils/types";
 
-const Mood = ({
-	setMood,
-	currentMood,
-}: {
-	setMood: (mood: mood) => void;
-	currentMood: mood;
-}) => {
-	const moods: mood[] = ["focus", "santai", "sedih", "senang"];
+const Mood = ({ setMood }: { setMood: (mood: mood) => void }) => {
+	const moods: mood[] = ["fokus", "santai", "sedih", "senang"];
 
 	const onSelectedMood = (mood: mood) => {
 		const totalMood = Number(sessionStorage.getItem(mood) ?? "0");
@@ -17,19 +10,23 @@ const Mood = ({
 	};
 
 	return (
-		<div className="mt-3">
+		<div className="mood-container">
 			{moods.map((v, i) => (
-				<Button
-					color="primary"
-					radius="sm"
-					className="mr-2 capitalize"
-					variant={v == currentMood ? "solid" : "flat"}
+				<div
+					className={`button-mood group`}
 					key={i}
 					onClick={() => onSelectedMood(v)}
-					disabled={v == currentMood}
 				>
-					{v}
-				</Button>
+					<img
+						src={`/${v}.png`}
+						alt={v}
+						className="absolute inset-0 size-full group-hover:scale-125 transition-all duration-400 -z-10"
+					/>
+					<h2 className="text-2xl font-medium text capitalize group-hover:underline">
+						{v}
+					</h2>
+					<p className="text-sm text-gray-300">{i * 10}+ musik</p>
+				</div>
 			))}
 		</div>
 	);

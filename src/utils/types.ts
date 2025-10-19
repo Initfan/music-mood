@@ -1,1 +1,1 @@
-export type mood = "focus" | "sedih" | "senang" | "santai";
+export type mood = "fokus" | "sedih" | "senang" | "santai";
