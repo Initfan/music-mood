@@ -45,7 +45,7 @@ const App = () => {
 	const scrollTrigger = (el: HTMLDivElement) => {
 		const scroll = el.scrollTop / (el.scrollHeight - el.clientHeight);
 
-		if (scroll === 1) {
+		if (scroll === 1 && !loading.newTrack) {
 			setLoading((p) => ({ ...p, newTrack: !p.newTrack }));
 
 			db.listRows<Music>({
