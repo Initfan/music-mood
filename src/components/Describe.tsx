@@ -41,8 +41,11 @@ const Describe = ({ setMood }: { setMood: (mood: mood) => void }) => {
 
 	return (
 		<>
-			<button onClick={onOpen} className="text-blue-500">
-				Ceritakan perasaanmu
+			<button
+				onClick={onOpen}
+				className="text-blue-500 text-sm md:text-base"
+			>
+				Ceritakan
 			</button>
 			<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<ModalContent>

@@ -25,7 +25,7 @@ const Mood = ({ setMood }: { setMood: (mood: mood) => void }) => {
 					<h2 className="text-2xl font-medium text capitalize group-hover:underline">
 						{v}
 					</h2>
-					<p className="text-sm text-gray-300">{i * 10}+ musik</p>
+					<p className="text-sm text-gray-300">20+ musik</p>
 				</div>
 			))}
 		</div>

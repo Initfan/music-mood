@@ -16,6 +16,7 @@ const App = () => {
 	const [tracks, setTracks] = useState<Music[]>([]);
 	const [playlist, setPlaylist] = useState<string[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [preference, setPreference] = useState(["local", "international"]);
 
 	useEffect(() => {
 		if (!currentMood) return;
@@ -25,22 +26,26 @@ const App = () => {
 		db.listRows<Music>({
 			databaseId: "68da581600322d1917ce",
 			tableId: "music",
-			queries: [Query.contains("mood", currentMood), Query.limit(10)],
+			queries: [
+				Query.contains("mood", currentMood),
+				Query.limit(10),
+				Query.contains("preference", preference),
+			],
 		}).then((v) => {
 			setLoading((p) => !p);
 			if (v.total == 0) return;
 			setTracks(v.rows);
 		});
-	}, [currentMood]);
+	}, [currentMood, preference]);
 
 	return (
 		<div className="space-y-6 w-[90vw] lg:w-[50vw] mx-auto py-4 flex flex-col">
-			<Header />
+			<Header preference={preference} setPreference={setPreference} />
 
 			<main className="flex flex-col gap-4 items-start">
 				<div className="flex justify-between w-full items-center">
-					<h1 className="text-3xl font-medium">
-						Apa yang kamu rasakan
+					<h1 className="text-2xl md:text-3xl font-medium">
+						Apa yang kamu <br className="md:hidden" /> rasakan
 					</h1>
 					<Describe setMood={(mood) => setCurrentMood(mood)} />
 				</div>

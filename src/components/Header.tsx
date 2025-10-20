@@ -5,11 +5,14 @@ import {
 	DropdownMenu,
 	DropdownTrigger,
 } from "@heroui/react";
-import { useState } from "react";
 
-const Header = () => {
-	const [preference, setPreference] = useState(["local", "international"]);
-
+const Header = ({
+	preference,
+	setPreference,
+}: {
+	preference: string[];
+	setPreference: (v: string[]) => void;
+}) => {
 	return (
 		<header className="flex justify-between">
 			<div className="flex gap-2 items-center">
