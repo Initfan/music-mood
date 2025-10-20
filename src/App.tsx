@@ -25,7 +25,7 @@ const App = () => {
 		db.listRows<Music>({
 			databaseId: "68da581600322d1917ce",
 			tableId: "music",
-			queries: [Query.contains("mood", currentMood)],
+			queries: [Query.contains("mood", currentMood), Query.limit(10)],
 		}).then((v) => {
 			setLoading((p) => !p);
 			if (v.total == 0) return;
@@ -34,7 +34,7 @@ const App = () => {
 	}, [currentMood]);
 
 	return (
-		<div className="space-y-6 w-[90vw] lg:w-[50vw] mx-auto py-4">
+		<div className="space-y-6 w-[90vw] lg:w-[50vw] mx-auto py-4 flex flex-col">
 			<Header />
 
 			<main className="flex flex-col gap-4 items-start">
@@ -66,16 +66,18 @@ const App = () => {
 						</h1>
 
 						{tracks.length > 0 ? (
-							tracks.map((v, i) => (
-								<Track
-									key={i}
-									track={v}
-									playlist={playlist}
-									setPlaylist={(v) =>
-										setPlaylist((p) => [...p, v])
-									}
-								/>
-							))
+							<div className="h-52 space-y-3 overflow-y-scroll scrollbar-hide">
+								{tracks.map((v, i) => (
+									<Track
+										key={i}
+										track={v}
+										playlist={playlist}
+										setPlaylist={(v) =>
+											setPlaylist((p) => [...p, v])
+										}
+									/>
+								))}
+							</div>
 						) : (
 							<p>Musik tidak ditemukan</p>
 						)}

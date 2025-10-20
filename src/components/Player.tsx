@@ -297,7 +297,7 @@ export default function Player({
 	return (
 		<Card
 			isBlurred
-			className="border-none bg-background/60 dark:bg-default-100/50 p-3"
+			className="border-none bg-background/60 dark:bg-default-100/50 p-3 flex-1"
 			shadow="sm"
 		>
 			<CardBody>
