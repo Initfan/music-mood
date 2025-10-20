@@ -79,7 +79,7 @@ const App = () => {
 				</div>
 				<Mood setMood={(mood) => setCurrentMood(mood)} />
 
-				{!loading && !currentMood && (
+				{!loading.track && !currentMood && (
 					<img
 						src="/loading.gif"
 						alt="loading gif"
@@ -87,7 +87,9 @@ const App = () => {
 					/>
 				)}
 
-				{loading && tracks.length == 0 && <LoadingTrackWithTitle />}
+				{loading.track && tracks.length == 0 && (
+					<LoadingTrackWithTitle />
+				)}
 
 				{!loading.track && currentMood && (
 					<div className="w-full flex flex-col gap-4">
