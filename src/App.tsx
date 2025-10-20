@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { mood } from "./utils/types";
 import { db } from "./utils/appwrite";
 import "./App.css";
@@ -9,18 +9,22 @@ import Header from "./components/Header";
 import Mood from "./components/Mood";
 import Track from "./components/Track";
 import type { Music } from "./types/appwrite";
-import { LoadingTrack } from "./components/Loading";
+import { LoadingTrack, LoadingTrackWithTitle } from "./components/Loading";
 
 const App = () => {
+	const trackContainer = useRef<HTMLDivElement>(null);
 	const [currentMood, setCurrentMood] = useState<mood | null>(null);
 	const [tracks, setTracks] = useState<Music[]>([]);
 	const [playlist, setPlaylist] = useState<string[]>([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState({
+		track: false,
+		newTrack: false,
+	});
 	const [preference, setPreference] = useState(["local", "international"]);
 
 	useEffect(() => {
 		if (!currentMood) return;
-		setLoading((p) => !p);
+		setLoading((p) => ({ ...p, track: !p.track }));
 		setTracks([]);
 		setPlaylist([]);
 		db.listRows<Music>({
@@ -28,15 +32,39 @@ const App = () => {
 			tableId: "music",
 			queries: [
 				Query.contains("mood", currentMood),
-				Query.limit(10),
+				Query.limit(5),
 				Query.contains("preference", preference),
 			],
 		}).then((v) => {
-			setLoading((p) => !p);
+			setLoading((p) => ({ ...p, track: !p.track }));
 			if (v.total == 0) return;
 			setTracks(v.rows);
 		});
 	}, [currentMood, preference]);
+
+	const scrollTrigger = (el: HTMLDivElement) => {
+		const scroll = el.scrollTop / (el.scrollHeight - el.clientHeight);
+
+		if (scroll === 1) {
+			setLoading((p) => ({ ...p, newTrack: !p.newTrack }));
+
+			db.listRows<Music>({
+				databaseId: "68da581600322d1917ce",
+				tableId: "music",
+				queries: [
+					Query.contains("mood", currentMood!),
+					Query.limit(5),
+					Query.offset(tracks.length),
+					Query.contains("preference", preference),
+				],
+			}).then((v) => {
+				setLoading((p) => ({ ...p, newTrack: !p.newTrack }));
+
+				if (v.total == 0) return;
+				setTracks((p) => [...p, ...v.rows]);
+			});
+		}
+	};
 
 	return (
 		<div className="space-y-6 w-[90vw] lg:w-[50vw] mx-auto py-4 flex flex-col">
@@ -59,9 +87,9 @@ const App = () => {
 					/>
 				)}
 
-				{loading && <LoadingTrack />}
+				{loading && tracks.length == 0 && <LoadingTrackWithTitle />}
 
-				{!loading && currentMood && (
+				{!loading.track && currentMood && (
 					<div className="w-full flex flex-col gap-4">
 						<h1 className="text-xl">
 							Daftar musik dengan mood{" "}
@@ -71,7 +99,14 @@ const App = () => {
 						</h1>
 
 						{tracks.length > 0 ? (
-							<div className="h-52 space-y-3 overflow-y-scroll scrollbar-hide">
+							<div
+								className="h-52 space-y-3 overflow-y-scroll scrollbar-hide"
+								onScroll={() =>
+									trackContainer &&
+									scrollTrigger(trackContainer.current!)
+								}
+								ref={trackContainer}
+							>
 								{tracks.map((v, i) => (
 									<Track
 										key={i}
@@ -82,6 +117,7 @@ const App = () => {
 										}
 									/>
 								))}
+								{loading.newTrack && <LoadingTrack />}
 							</div>
 						) : (
 							<p>Musik tidak ditemukan</p>

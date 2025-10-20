@@ -1,4 +1,4 @@
-import { Disc3, Ellipsis, Heart } from "lucide-react";
+import { Disc3, Heart } from "lucide-react";
 import type { Music } from "../types/appwrite";
 import { storage } from "../utils/appwrite";
 import { useEffect, useState } from "react";
@@ -49,14 +49,14 @@ const Track = ({
 					</p>
 				</div>
 			</div>
-			<div className="items-start flex gap-3">
+			{/* <div className="items-start flex gap-3">
 				<button>
 					<Heart className="size-5 md:size-6" />
 				</button>
 				<button>
 					<Ellipsis className="size-5 md:size-6" />
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 };
