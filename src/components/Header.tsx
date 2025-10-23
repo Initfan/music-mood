@@ -17,7 +17,7 @@ const Header = ({
 		<header className="flex justify-between">
 			<div className="flex gap-2 items-center">
 				<img src="/icon.png" alt="logo" width={30} height={30} />
-				<h1 className="text-xl font-semibold">Music Mood</h1>
+				<h1 className="text-xl font-semibold">Moodician</h1>
 			</div>
 			<Dropdown>
 				<DropdownTrigger>
@@ -45,3 +45,4 @@ const Header = ({
 };
 
 export default Header;
+
