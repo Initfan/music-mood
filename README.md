@@ -163,11 +163,3 @@ Please refer to the repository's `LICENSE` file, if available, for the applicabl
 - Repository: [music-mood](https://github.com/Initfan/music-mood)
 
 ---
-
-\<p align="center">
-&#x20; Made with care by Initfan.
-\</p>
-
-\<p align="center">
-&#x20; \<i>Every mood deserves its own soundtrack.\</i>
-\</p>
